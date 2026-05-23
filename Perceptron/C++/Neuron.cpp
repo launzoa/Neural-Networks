@@ -2,13 +2,13 @@
 #include <cstdlib>
 #include <ctime>
 
-Neuron::Neuron(int num_inputs) {
+Neuron::Neuron(int input_size) {
   srand(time(NULL));
 
   this->u = 0.0;
   this->b = (rand() / ((double)RAND_MAX)) * 2 - 1;
 
-  for (int i = 0; i < num_inputs; ++i) {
+  for (int i = 0; i < input_size; ++i) {
     this->w.push_back((rand() / ((double)RAND_MAX)) * 2 - 1);
   }
 }
