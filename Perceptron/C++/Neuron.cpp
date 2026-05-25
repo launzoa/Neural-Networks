@@ -30,6 +30,6 @@ int Neuron::activation_function() { return (this->u >= 0) ? 1 : 0; }
 void Neuron::learning(const std::vector<double> &x, double err, double lr) {
   for (int i = 0; i < x.size(); ++i) {
     this->w[i] += lr * (err)*x[i];
-    this->b += +lr * (err);
   }
+  this->b += lr * (err);
 }

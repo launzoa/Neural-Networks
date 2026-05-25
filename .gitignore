@@ -1,2 +1,4 @@
 .venvNN/
 __pycache__/
+build/
+doc.md

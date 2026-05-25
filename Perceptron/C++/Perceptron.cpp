@@ -41,14 +41,13 @@ int Perceptron::predict(const vector<double> &x) {
   return this->neuron.activation_function();
 }
 
-void Perceptron::train(const vector<vector<double>> &X,
-                       const vector<int> &y_target, int num_epochs) {
+void Perceptron::train(const vector<vector<double>> &X, const vector<int> &y,
+                       int num_epochs) {
   this->insert_line_table(this->neuron.get_b(), this->neuron.get_w());
 
   for (int epoch = 0; epoch < num_epochs; epoch++) {
     for (int i = 0; i < X.size(); i++) {
-      int y_pred = this->predict(X[i]);
-      int error = y_target[i] - y_pred;
+      int error = y[i] - this->predict(X[i]);
 
       if (error != 0) {
         this->neuron.learning(X[i], error, this->lr);
