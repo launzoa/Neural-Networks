@@ -7,11 +7,11 @@ private:
   double b;
 
 public:
-  Neuron(int num_inputs);
+  Neuron(int input_size);
   ~Neuron();
 
   double soma(const std::vector<double> &x);
-  int activation(double u);
+  int activation(const double u);
 
   // Getters
   std::vector<double> getW() const { return this->w; }
@@ -19,5 +19,5 @@ public:
 
   // Setters
   void setW(const std::vector<double> &w) { this->w = w; }
-  void setB(double b) { this->b = b; }
+  void setB(const double b) { this->b = b; }
 };
