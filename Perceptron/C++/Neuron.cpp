@@ -4,8 +4,6 @@
 
 Neuron::Neuron(int input_size) {
   srand(time(NULL));
-
-  this->u = 0.0;
   this->b = (rand() / ((double)RAND_MAX)) * 2 - 1;
 
   for (int i = 0; i < input_size; ++i) {
@@ -15,21 +13,14 @@ Neuron::Neuron(int input_size) {
 
 Neuron::~Neuron() {}
 
-void Neuron::soma(const std::vector<double> &x) {
-  this->u = 0.0;
+double Neuron::soma(const std::vector<double> &x) {
+  double u = 0.0;
 
   for (int i = 0; i < x.size(); ++i) {
-    this->u += x[i] * this->w[i];
+    u += x[i] * this->w[i];
   }
 
-  this->u += this->b;
+  return u + this->b;
 }
 
-int Neuron::activation_function() { return (this->u >= 0) ? 1 : 0; }
-
-void Neuron::learning(const std::vector<double> &x, double err, double lr) {
-  for (int i = 0; i < x.size(); ++i) {
-    this->w[i] += lr * (err)*x[i];
-  }
-  this->b += lr * (err);
-}
+int Neuron::activation(double u) { return (u >= 0) ? 1 : 0; }

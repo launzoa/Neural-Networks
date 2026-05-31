@@ -5,17 +5,19 @@ class Neuron {
 private:
   std::vector<double> w;
   double b;
-  double u;
 
 public:
   Neuron(int num_inputs);
   ~Neuron();
 
-  void soma(const std::vector<double> &x);
-  int activation_function();
-  void learning(const std::vector<double> &x, double err, double lr);
+  double soma(const std::vector<double> &x);
+  int activation(double u);
 
   // Getters
-  const std::vector<double> &get_w() const { return this->w; }
-  double get_b() const { return this->b; }
+  std::vector<double> getW() const { return this->w; }
+  double getB() const { return this->b; }
+
+  // Setters
+  void setW(const std::vector<double> &w) { this->w = w; }
+  void setB(double b) { this->b = b; }
 };

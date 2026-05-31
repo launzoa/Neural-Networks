@@ -7,52 +7,34 @@ Perceptron::Perceptron(int num_inputs, double lr)
 
 Perceptron::~Perceptron() {}
 
-void Perceptron::insert_line_table(double b, vector<double> w) {
-  vector<double> row;
-  row.push_back(b);
+void Perceptron::learning(const std::vector<double> &x, double err, double lr) {
+  vector<double> w = this->neuron.getW();
+  double b = this->neuron.getB();
 
-  for (double val : w) {
-    row.push_back(val);
+  for (int i = 0; i < x.size(); ++i) {
+    w[i] += lr * (err)*x[i];
   }
+  b += lr * (err);
 
-  this->table.push_back(row);
-}
-
-void Perceptron::print_table() {
-  cout << "Epoch\t Bias\t";
-  for (int i = 0; i < this->neuron.get_w().size(); i++) {
-    cout << " W" << i + 1 << "\t";
-  }
-  cout << endl;
-
-  int epoch = 0;
-  for (vector<double> row : this->table) {
-    cout << epoch << "\t";
-    epoch++;
-    for (double val : row) {
-      printf("%7.4f ", val);
-    }
-    cout << endl;
-  }
+  this->neuron.setW(w);
+  this->neuron.setB(b);
 }
 
 int Perceptron::predict(const vector<double> &x) {
-  this->neuron.soma(x);
-  return this->neuron.activation_function();
+  double u = this->neuron.soma(x);
+  return this->neuron.activation(u);
 }
 
 void Perceptron::train(const vector<vector<double>> &X, const vector<int> &y,
                        int num_epochs) {
-  this->insert_line_table(this->neuron.get_b(), this->neuron.get_w());
 
   for (int epoch = 0; epoch < num_epochs; epoch++) {
     for (int i = 0; i < X.size(); i++) {
       int error = y[i] - this->predict(X[i]);
 
       if (error != 0) {
-        this->neuron.learning(X[i], error, this->lr);
+        this->learning(X[i], error, this->lr);
       }
     }
-    this->insert_line_table(this->neuron.get_b(), this->neuron.get_w());
   }
 }

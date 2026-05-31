@@ -11,12 +11,13 @@ int main() {
 
   perceptron.train(X, y, 10);
 
-  cout << "Training history: " << endl;
-  perceptron.print_table();
-
   cout << endl << "Predict test:" << endl;
-  cout << "x: [0, 1]" << endl;
-  cout << "y: " << perceptron.predict({0, 1}) << endl;
+
+  for (int i = 0; i < X.size(); i++) {
+    cout << "x: [" << X[i][0] << ", " << X[i][1] << "]" << endl;
+    cout << "y: " << perceptron.predict(X[i]) << endl;
+    cout << endl;
+  }
 
   return 0;
 }
