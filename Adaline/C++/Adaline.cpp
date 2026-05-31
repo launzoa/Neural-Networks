@@ -6,23 +6,17 @@ Adaline::Adaline(int input_size, double lr) : neuron(input_size), lr(lr) {}
 Adaline::~Adaline() {}
 
 void Adaline::learning(const std::vector<double> &x, const int y) {
-
-  vector<double> w = this->neuron.getW();
-  double b = this->neuron.getB();
-
+  vector<double> &w = this->neuron.getW();
+  double &b = this->neuron.getB();
   double u = this->neuron.soma(x);
 
-  for (int i = 0; i < x.size(); ++i) {
-    w[i] = w[i] + this->lr * (y - u) * x[i];
+  for (int i = 0; i < x.size(); i++) {
+    w[i] += this->lr * (y - u) * x[i];
   }
-  b = b + this->lr * (y - u);
-
-  this->neuron.setW(w);
-  this->neuron.setB(b);
+  b += this->lr * (y - u);
 }
 
 int Adaline::predict(const std::vector<double> &x) {
-
   double u = this->neuron.soma(x);
 
   return this->neuron.activation(u);

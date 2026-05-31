@@ -14,10 +14,6 @@ public:
   int activation(const double u);
 
   // Getters
-  std::vector<double> getW() const { return this->w; }
-  double getB() const { return this->b; }
-
-  // Setters
-  void setW(const std::vector<double> &w) { this->w = w; }
-  void setB(const double b) { this->b = b; }
+  std::vector<double> &getW() { return this->w; }
+  double &getB() { return this->b; }
 };

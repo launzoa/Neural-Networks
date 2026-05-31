@@ -4,12 +4,12 @@
 using namespace std;
 
 int main() {
-  vector<vector<double>> X = {{0, 0}, {0, 1}, {1, 0}, {1, 1}};
-  vector<int> y = {0, 1, 1, 1};
+  vector<vector<double>> X = {{-1, -1}, {-1, 1}, {1, -1}, {1, 1}};
+  vector<int> y = {-1, 1, 1, 1};
 
   Adaline adaline(2, 0.01);
 
-  adaline.train(X, y, 100);
+  adaline.train(X, y, 1000);
 
   cout << endl << "Predict test:" << endl;
 

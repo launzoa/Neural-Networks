@@ -1,14 +1,14 @@
 #include "headers/Neuron.h"
-#include <cstdlib>
-#include <ctime>
+#include <random>
 
 Neuron::Neuron(int input_size) {
-  srand(time(NULL));
+  std::random_device rd;
+  std::mt19937 gen(rd());
+  std::uniform_real_distribution<double> dist(-1.0, 1.0);
 
-  this->b = (rand() / ((double)RAND_MAX)) * 2 - 1;
-
+  this->b = dist(gen);
   for (int i = 0; i < input_size; i++) {
-    this->w.push_back((rand() / ((double)RAND_MAX)) * 2 - 1);
+    this->w.push_back(dist(gen));
   }
 }
 
@@ -24,4 +24,4 @@ double Neuron::soma(const std::vector<double> &x) {
   return u + this->b;
 }
 
-int Neuron::activation(const double u) { return (u >= 0) ? 1 : -1; }
+int Neuron::activation(const double u) { return (u >= 0) ? 1 : 0; }
