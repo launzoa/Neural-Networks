@@ -35,7 +35,9 @@ const int PTERODACTYL_HEIGHT = 30;
 const double JUMP_IMPULSE = -600;
 const double SNEAK_IMPULSE = 350;
 
-// Perceptron constants
+// MLP constants
 const int INPUT_NEURONS = 4;
-const int OUTPUT_NEURONS = 1;
+const int HIDDEN_NEURONS = 8;
+const int OUTPUT_NEURONS = 3;
 const double LEARNING_RATE = 0.1;
+const int EPOCHS = 5;
