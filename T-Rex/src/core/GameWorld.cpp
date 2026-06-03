@@ -36,7 +36,7 @@ void GameWorld::update(double deltaTime, int action) {
 }
 
 void GameWorld::insertObstacle() {
-  int obstacleClass = rand() % 2;
+  int obstacleClass = rand() % 3;
 
   switch (obstacleClass) {
   case 0: { // small cactus
@@ -62,9 +62,8 @@ void GameWorld::insertObstacle() {
     int qntPterodactyl = rand() % 1 + 1;
 
     for (int i = 0; i < qntPterodactyl; i++) {
-      this->obstacles.push_back(Obstacle(
-          WINDOW_WIDTH + (i * PTERODACTYL_WIDTH), GROUND_Y - PTERODACTYL_HEIGHT,
-          PTERODACTYL_WIDTH, PTERODACTYL_HEIGHT));
+      this->obstacles.push_back(Obstacle(WINDOW_WIDTH + (i * PTERODACTYL_WIDTH),
+                                         0, PTERODACTYL_WIDTH, GROUND_Y - 25));
     }
     break;
   }
@@ -130,8 +129,13 @@ std::vector<double> GameWorld::getInputs() {
   }
 
   Obstacle front = this->obstacles.front();
+  double visual_y = front.getY();
+  if (front.getWidth() == PTERODACTYL_WIDTH) {
+      visual_y = GROUND_Y - 55; // Altura visual original do Pterodáctilo
+  }
+
   return {this->getTimeToCollision() / (WINDOW_WIDTH / GAME_SPEED),
-          this->gameSpeed / 1000.0, front.getY() / WINDOW_HEIGHT,
+          this->gameSpeed / 1000.0, visual_y / WINDOW_HEIGHT,
           front.getWidth() / 100.0};
 }
 

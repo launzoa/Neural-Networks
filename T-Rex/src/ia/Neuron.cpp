@@ -1,18 +1,21 @@
 #include "headers/Neuron.h"
-#include <cstdlib>
-#include <ctime>
+#include <cmath>
+#include <random>
 
 using namespace std;
 
 Neuron::Neuron(int input_size) {
-  srand(time(NULL));
+  random_device rd;
+  mt19937 gen(rd());
+  uniform_real_distribution<double> dist(-1.0, 1.0);
 
-  this->b = (double)rand() / RAND_MAX;
-  this->u = 0.0;
-
-  for (int i = 0; i < input_size; ++i) {
-    this->w.push_back((double)rand() / RAND_MAX);
+  this->b = dist(gen);
+  for (int i = 0; i < input_size; i++) {
+    this->w.push_back(dist(gen));
   }
+
+  this->u = 0.0;
+  this->delta = 0.0;
 }
 
 Neuron::~Neuron() {}
@@ -25,18 +28,27 @@ void Neuron::soma(const vector<double> &x) {
   }
 }
 
-int Neuron::activate() {
-  if (this->u > 0.5)
-    return 1;
-  else if (this->u < -0.5)
-    return -1;
-  else
-    return 0;
+double Neuron::sigmoid() { return 1.0 / (1.0 + exp(-this->u)); }
+
+double Neuron::sigmoid_derivative() {
+  return this->sigmoid() * (1.0 - this->sigmoid());
 }
 
-void Neuron::learning(const vector<double> &x, double err, double lr) {
-  for (int i = 0; i < x.size(); ++i) {
-    this->w[i] += lr * err * x[i];
+void Neuron::calculate_delta(double err) {
+  this->delta = err * this->sigmoid_derivative();
+}
+
+vector<double> Neuron::delta_error() {
+  vector<double> delta_err;
+  for (int i = 0; i < w.size(); ++i) {
+    delta_err.push_back(this->delta * this->w[i]);
   }
-  this->b += lr * err;
+  return delta_err;
+}
+
+void Neuron::update_weights(const vector<double> &x, double lr) {
+  for (int i = 0; i < x.size(); ++i) {
+    this->w[i] += lr * this->delta * x[i];
+  }
+  this->b += lr * this->delta;
 }
